@@ -2,7 +2,7 @@
 // When you're ready to use it, un-comment the line below!
 
 import {combineReducers} from 'redux'
-import {GET_CAMPUSES, GET_ONE_CAMPUS, GET_STUDENTS, GET_ONE_STUDENT} from '../actionCreators'
+import {GET_CAMPUSES, GET_ONE_CAMPUS, GET_STUDENTS, GET_ONE_STUDENT, GET_ENROLLED_STUDENTS} from '../actionCreators'
 
 const initialCampusState = {
   campuses: [],
@@ -11,6 +11,7 @@ const initialCampusState = {
 
 const initialStudentState = {
   students: [],
+  enrolledStudents: [],
   selectedStudent: {}
 }
 
@@ -29,7 +30,9 @@ export const studentReducer = (state=initialStudentState, action) => {
     case GET_STUDENTS:
       return {...state, students: action.students}
     case GET_ONE_STUDENT:
-      return {...state, selectedStudent: action.student}  
+      return {...state, selectedStudent: action.student}
+    case GET_ENROLLED_STUDENTS:
+      return {...state, enrolledStudents: action.students}
     default: return state
   }
 }

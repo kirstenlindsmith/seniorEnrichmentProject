@@ -32,7 +32,7 @@ const campuses = [
     name: 'Chicago',
     imageUrl: 'https://i.imgur.com/BCOolVQ.png',
     address: 'Somewhere, Chicago, IL',
-    description: `The second campus for Margaret Hamilton is in Chicago. There's not much else to say.`
+    description: `The second campus for Margaret Hamilton is in Chicago. Not much is known about this school. It is fairly new, and still a mystery. Please contact us with any information about the Chicago Campus, so we can better flesh out this website.`
   },
   {
     name: 'Remote',

@@ -5,6 +5,7 @@ export const GET_CAMPUSES = 'GET_CAMPUSES'
 export const GET_ONE_CAMPUS = 'GET_ONE_CAMPUS'
 export const GET_STUDENTS = 'GET_STUDENTS'
 export const GET_ONE_STUDENT = 'GET_ONE_STUDENT'
+export const GET_ENROLLED_STUDENTS = 'GET_ENROLLED_STUDENTS'
 
 //sync action creators
 export const loadCampuses = (campuses) => {
@@ -32,6 +33,13 @@ export const loadOneStudent = (student) => {
   return {
     type: GET_ONE_STUDENT,
     student
+  }
+}
+
+export const loadEnrolledStudents = (students) => {
+  return {
+    type: GET_ENROLLED_STUDENTS,
+    students
   }
 }
 
@@ -81,3 +89,13 @@ export const getOneStudentFromServer = (studentId) => {
   }
 }
 
+export const getEnrolledStudentsFromServer = (campusId) => {
+  return async (dispatch) => {
+    try {
+      const {data} = await axios.get(`/api/campuses/${campusId}/students`)
+      dispatch(loadEnrolledStudents(data))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}

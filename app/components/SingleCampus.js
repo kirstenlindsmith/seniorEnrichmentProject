@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getOneCampusFromServer} from '../actionCreators'
-import {Link} from 'react-router-dom'
+import {Link, Route, Switch} from 'react-router-dom'
 
 class SingleCampus extends Component {
 
@@ -19,6 +19,15 @@ class SingleCampus extends Component {
           <p className='smallText'>{campus.address}</p>
           <p className='description'>{campus.description}</p>
         <img src={campus.imageUrl} className='singleImage'/>
+        <Switch>
+          <Route exact path={`/campuses/${campus.id}`} render={() =>
+            <Link to={`/campuses/${campus.id}/students`} className='viewLink'>View Enrolled Students</Link>
+          } />
+          
+          <Route exact path={`/campuses/${campus.id}/students`} render={() =>
+            <Link to={`/campuses/${campus.id}`} className='viewLink' id="closeLink">Close Enrolled Students</Link>
+          } />
+        </Switch>
         </div>
       </div>
     )

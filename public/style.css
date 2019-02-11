@@ -34,6 +34,13 @@ main {
   justify-content: center;
 }
 
+p {
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
 #navList li {
   display: inline-flex;
   flex-direction: row;
@@ -52,7 +59,7 @@ main {
 .singleImage {
   height: 250px;
   margin-top: 15px;
-  margin-bottom: 50px
+  margin-bottom: 25px
 }
 
 .profileList {
@@ -86,4 +93,29 @@ main {
 
 .pageTitle {
   margin: 5px
+}
+
+.viewLink {
+  margin-bottom: 30px
+}
+
+#closeLink {
+  margin-bottom: 0px
+}
+
+.enrolledStudents {
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 0px
+}
+
+.enrollLink {
+  font-weight: bold
+}
+
+#studentCampusLink {
+  margin-left: 5px
 }

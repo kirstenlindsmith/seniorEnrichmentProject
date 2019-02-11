@@ -19,11 +19,11 @@ class AllStudents extends Component {
             students.map(student => {
               return (
                 <div key={student.id} className="profileElem">
-                <div key={student.id}>
-                  <Link to={`/students/${student.id}`}>
-                    {student.firstName} {student.lastName}
-                  </Link>
-                </div>
+                  <div key={student.id}>
+                    <Link to={`/students/${student.id}`}>
+                      {student.firstName} {student.lastName}
+                    </Link>
+                  </div>
                 <Link to={`/students/${student.id}`}>
                   <img src={student.imageUrl} className="profileImage" />
                 </Link>

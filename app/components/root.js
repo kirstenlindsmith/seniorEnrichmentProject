@@ -1,6 +1,7 @@
 import React from 'react'
 import AllCampuses from './AllCampuses'
 import SingleCampus from './SingleCampus'
+import EnrolledStudents from './EnrolledStudents'
 import AllStudents from './AllStudents'
 import SingleStudent from './SingleStudent'
 import AddStudent from './AddStudent'
@@ -26,10 +27,11 @@ const Root = () => {
             <Route exact path='/campuses' component={AllCampuses} />
             <Route path='/campuses/:campusId' component={SingleCampus} />
             <Route exact path='/students' component={AllStudents} />
-            {/* <Route path='/students/:studentId' component={SingleStudent} /> */}
+            <Route path='/students/:studentId' component={SingleStudent} />
             {/* <Route exact path='/students/add' component={AddStudent} /> */}
             {/* <Route exact path='/campuses/add' component={AddCampus} /> */}
           </Switch>
+          <Route path='/campuses/:campusId/students' component={EnrolledStudents} />
         </main>
       </div>
     </Router>
