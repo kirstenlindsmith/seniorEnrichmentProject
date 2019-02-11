@@ -14,6 +14,21 @@ router.get('/', async (req,res,next)=> {
   }
 })
 
+//GET api/campuses/(someId) -- serve up a specific campus
+router.get('/:campusId', async (req,res,next)=> {
+  try {
+    const campus = await Campus.findOne({
+      where: {
+        id: req.params.campusId
+      }
+    })
+    res.json(campus)
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
+
 //POST api/campuses -- add a new campus
 router.post('/', async (req,res,next)=> {
   try {

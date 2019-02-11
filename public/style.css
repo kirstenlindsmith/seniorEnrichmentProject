@@ -31,3 +31,28 @@ main {
   flex-direction: column;
   justify-content: center;
 }
+
+#navList li {
+  display: inline-flex;
+  flex-direction: row;
+  padding: 10px;
+  justify-content: space-between;
+}
+
+#navList a {
+  color: #c0c0c0
+}
+
+.profileImage {
+  height: 100px
+}
+
+.profileList {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.profileElem {
+  padding: 10px
+}

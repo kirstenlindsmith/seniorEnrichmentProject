@@ -14,6 +14,21 @@ router.get('/', async (req,res,next)=> {
   }
 })
 
+//GET api/students/(someId) -- serve up a specific student
+router.get('/:studentId', async (req,res,next)=> {
+  try {
+    const student = await Student.findOne({
+      where: {
+        id: req.params.studentId
+      }
+    })
+    res.json(student)
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
+
 //POST api/students -- add a new student
 router.post('/', async (req,res,next)=> {
   try {
