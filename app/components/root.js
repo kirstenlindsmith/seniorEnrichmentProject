@@ -21,11 +21,10 @@ const Root = () => {
           </ul>
         </nav>
         <main>
-          <h1>Welcome to the Margaret Hamilton Academy of JavaScript!</h1>
-          <p>This seems like a nice place to get started with some Routes!</p>
+          <h1>Margaret Hamilton Academy of JavaScript!</h1>
           <Switch>
             <Route exact path='/campuses' component={AllCampuses} />
-            {/* <Route path='/campuses/:campusId' component={SingleCampus} /> */}
+            <Route path='/campuses/:campusId' component={SingleCampus} />
             <Route exact path='/students' component={AllStudents} />
             {/* <Route path='/students/:studentId' component={SingleStudent} /> */}
             {/* <Route exact path='/students/add' component={AddStudent} /> */}

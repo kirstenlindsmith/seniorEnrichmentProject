@@ -4,7 +4,7 @@ const { Student, Campus } = require('../db/models')
 module.exports = router
 
 //GET api/campuses -- serve up all campuses
-router.get('/', async (req,res,next)=> {
+router.get('/', async (req, res, next) => {
   try {
     const campuses = await Campus.findAll()
     res.json(campuses)
@@ -15,7 +15,7 @@ router.get('/', async (req,res,next)=> {
 })
 
 //GET api/campuses/(someId) -- serve up a specific campus
-router.get('/:campusId', async (req,res,next)=> {
+router.get('/:campusId', async (req, res, next) => {
   try {
     const campus = await Campus.findOne({
       where: {
@@ -29,8 +29,22 @@ router.get('/:campusId', async (req,res,next)=> {
   }
 })
 
+router.get('/:campusId/students', async (req, res, next) => {
+  try {
+    const students = await Student.findAll({
+      where: {
+        campusId: req.params.campusId
+      }
+    })
+    res.json(students)
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
+
 //POST api/campuses -- add a new campus
-router.post('/', async (req,res,next)=> {
+router.post('/', async (req, res, next) => {
   try {
     
   } catch (err) {
@@ -50,7 +64,7 @@ router.put('/:studentId', async (req,res,next)=> {
 })
 
 //DELETE api/campuses -- delete a campus from the db
-router.delete('/:studentId', async (req,res,next)=> {
+router.delete('/:studentId', async (req, res, next) => {
   try {
     
   } catch (err) {

@@ -8,14 +8,16 @@ const students = [
     lastName: 'Yang',
     email: 'david@fullstackacademy.com',
     imageUrl: 'https://i.imgur.com/aDr2Eks.png',
-    gpa: 4.0
+    gpa: 4.0,
+    campusId: 1
   },
   {
     firstName: 'Nimit',
     lastName: 'Maru',
     email: 'nimit@fullstackacademy.com',
     imageUrl: 'https://i.imgur.com/egTViXC.png',
-    gpa: 4.0
+    gpa: 4.0,
+    campusId: 1
   },
 ]
 
@@ -40,15 +42,16 @@ const campuses = [
   } 
 ]
 
+
 const seed = async () => {
   await db.sync({force: true})
 
-  await Promise.all(students.map(student=> {
-    return Student.create(student)
-  }))
-
   await Promise.all(campuses.map(campus => {
     return Campus.create(campus)
+  }))
+  
+  await Promise.all(students.map(student=> {
+    return Student.create(student)
   }))
 
   console.log(green('Seeding success!'))

@@ -14,6 +14,8 @@ body {
   padding: 0;
   margin: 0;
   width: 100vw;
+  background-repeat: no-repeat;
+  background-attachment: fixed
 }
 
 nav {
@@ -47,12 +49,41 @@ main {
   height: 100px
 }
 
+.singleImage {
+  height: 250px;
+  margin-top: 15px;
+  margin-bottom: 50px
+}
+
 .profileList {
   display: inline-flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
+.profileSingle {
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .profileElem {
   padding: 10px
+}
+
+.description {
+  margin-left: 20vw;
+  margin-right: 20vw;
+  text-align: center
+}
+
+.smallText {
+  font-style: italic;
+  font-size: 10pt;
+  margin: 0px
+}
+
+.pageTitle {
+  margin: 5px
 }
