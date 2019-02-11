@@ -68,3 +68,9 @@ router.delete('/:studentId', async (req, res, next) => {
     next(err)
   }
 })
+
+router.use((req, res, next) => {
+  const err = new Error('API route not found!')
+  err.status = 404
+  next(err)
+})

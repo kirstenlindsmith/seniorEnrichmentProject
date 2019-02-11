@@ -25,11 +25,11 @@ const Root = () => {
           <h1>Margaret Hamilton Academy of JavaScript!</h1>
           <Switch>
             <Route exact path='/campuses' component={AllCampuses} />
+            <Route path='/campuses/add' component={AddCampus} />
             <Route path='/campuses/:campusId' component={SingleCampus} />
             <Route exact path='/students' component={AllStudents} />
             <Route path='/students/:studentId' component={SingleStudent} />
             {/* <Route exact path='/students/add' component={AddStudent} /> */}
-            {/* <Route exact path='/campuses/add' component={AddCampus} /> */}
           </Switch>
           <Route path='/campuses/:campusId/students' component={EnrolledStudents} />
         </main>

@@ -73,8 +73,8 @@ Congrats! You have completed your second vertical slice! Make sure to `commit -m
 
 #### Backend
 
-- [ ] Write a route to add a new campus
-- [ ] Write a route to add a new student
+- [ x] Write a route to add a new campus
+- [ x] Write a route to add a new student
 
 #### Frontend
 
