@@ -60,14 +60,18 @@ router.post('/', async (req, res, next) => {
 // })
 
 //DELETE api/students -- delete a student from the db
-// router.delete('/:studentId', async (req, res, next) => {
-//   try {
-    
-//   } catch (err) {
-//     console.error(err)
-//     next(err)
-//   }
-// })
+router.delete('/:studentId', async (req, res, next) => {
+  try {
+    Student.destroy({
+      where: {
+        id: req.params.studentId
+      }
+    })
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
 
 router.use((req, res, next) => {
   const err = new Error('API route not found!')

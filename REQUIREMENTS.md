@@ -101,8 +101,8 @@ Congrats! You have completed your third vertical slice! Make sure to `commit -m 
 
 #### Backend
 
-- [ ] Write a route to remove a campus (based on its id)
-- [ ] Write a route to remove a student (based on their id)
+- [ x] Write a route to remove a campus (based on its id)
+- [ x] Write a route to remove a student (based on their id)
 
 #### Frontend
 

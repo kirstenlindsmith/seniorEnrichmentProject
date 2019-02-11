@@ -3,7 +3,7 @@ import React from 'react'
 const AddStudent = () => {
   return(
     <div>
-      <h4>Start Your Intergalactic Path to Javascript Development! Enroll Today:</h4>
+      <h4>Start Your Path to Javascript Development! Enroll Today:</h4>
       <form method='POST' action='http://localhost:1337/api/students'>
         <div className='form-section'>
           <label htmlFor='firstName'>First Name</label>

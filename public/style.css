@@ -120,3 +120,22 @@ p {
 #studentCampusLink {
   margin-left: 5px
 }
+
+.center {
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stackedPage {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+#center {
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}

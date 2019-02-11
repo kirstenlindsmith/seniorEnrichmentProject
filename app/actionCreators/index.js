@@ -6,6 +6,9 @@ export const GET_ONE_CAMPUS = 'GET_ONE_CAMPUS'
 export const GET_STUDENTS = 'GET_STUDENTS'
 export const GET_ONE_STUDENT = 'GET_ONE_STUDENT'
 export const GET_ENROLLED_STUDENTS = 'GET_ENROLLED_STUDENTS'
+export const REMOVE_CAMPUS = 'REMOVE_CAMPUS'
+export const REMOVE_STUDENT = 'REMOVE_STUDENT'
+
 
 //sync action creators
 export const loadCampuses = (campuses) => {
@@ -19,6 +22,13 @@ export const loadOneCampus = (campus) => {
   return {
     type: GET_ONE_CAMPUS,
     campus
+  }
+}
+
+export const removeCampus = (campusId) => {
+  return {
+    type: REMOVE_CAMPUS,
+    id: campusId
   }
 }
 
@@ -43,6 +53,13 @@ export const loadEnrolledStudents = (students) => {
   }
 }
 
+export const removeStudent = (studentId) => {
+  return {
+    type: REMOVE_STUDENT,
+    id: studentId
+  }
+}
+
 //async action creators
 
 export const getCampusesFromServer = () => {
@@ -61,6 +78,17 @@ export const getOneCampusFromServer = (campusId) => {
     try {
       const {data} = await axios.get(`/api/campuses/${campusId}`)
       dispatch(loadOneCampus(data))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}
+
+export const removeCampusFromServer = (campusId) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`/api/campuses/${campusId}`)
+      dispatch(removeCampus(campusId))
     } catch (err) {
       console.error(err)
     }
@@ -94,6 +122,17 @@ export const getEnrolledStudentsFromServer = (campusId) => {
     try {
       const {data} = await axios.get(`/api/campuses/${campusId}/students`)
       dispatch(loadEnrolledStudents(data))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}
+
+export const removeStudentFromServer = (studentId) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`/api/students/${studentId}`)
+      dispatch(removeStudent(studentId))
     } catch (err) {
       console.error(err)
     }

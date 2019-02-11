@@ -2,7 +2,7 @@
 // When you're ready to use it, un-comment the line below!
 
 import {combineReducers} from 'redux'
-import {GET_CAMPUSES, GET_ONE_CAMPUS, GET_STUDENTS, GET_ONE_STUDENT, GET_ENROLLED_STUDENTS} from '../actionCreators'
+import {GET_CAMPUSES, GET_ONE_CAMPUS, GET_STUDENTS, GET_ONE_STUDENT, GET_ENROLLED_STUDENTS, REMOVE_CAMPUS, REMOVE_STUDENT} from '../actionCreators'
 
 const initialCampusState = {
   campuses: [],
@@ -16,11 +16,16 @@ const initialStudentState = {
 }
 
 export const campusReducer = (state=initialCampusState, action) => {
-  switch(action.type){
+  switch (action.type){
     case GET_CAMPUSES:
       return {...state, campuses: action.campuses}
     case GET_ONE_CAMPUS:
-      return {...state, selectedCampus: action.campus}  
+      return {...state, selectedCampus: action.campus}
+    case REMOVE_CAMPUS: {
+      const newCampuses = state.campuses.filter(campus => campus.id !== action.id)
+      console.log('NEW CAMPUS ARRAY!!!', newCampuses)
+      return {...state, campuses: newCampuses}
+    }
     default: return state
   }
 }
@@ -33,6 +38,10 @@ export const studentReducer = (state=initialStudentState, action) => {
       return {...state, selectedStudent: action.student}
     case GET_ENROLLED_STUDENTS:
       return {...state, enrolledStudents: action.students}
+    case REMOVE_STUDENT: {
+      const newStudents = state.students.filter(student => student.id !== action.id)
+      return {...state, students: newStudents}
+    }  
     default: return state
   }
 }
@@ -40,14 +49,3 @@ export const studentReducer = (state=initialStudentState, action) => {
 const rootReducer = combineReducers({campusState: campusReducer, studentState: studentReducer})
 
 export default rootReducer
-
-// const initialState = {}
-
-// const rootReducer = (state = initialState, action) => {
-//   switch (action.type) {
-//     default:
-//       return state
-//   }
-// }
-
-// export default rootReducer
