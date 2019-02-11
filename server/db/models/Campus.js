@@ -13,7 +13,7 @@ module.exports = db.define('campus', {
   imageUrl: {
     type: Sequelize.STRING,
     isUrl: true,
-    defaultValue: 'https://imgur.com/a/G3IAFYk'
+    defaultValue: 'https://static.boredpanda.com/blog/wp-content/uploads/2018/04/handicapped-cat-rexie-the-handicat-dasha-minaeva-60-5acb4f1d1cdbb__700.jpg'
   },
   address: {
     type: Sequelize.STRING,

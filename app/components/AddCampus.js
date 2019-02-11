@@ -3,8 +3,8 @@ import React from 'react'
 const AddCampus = () => {
   return(
     <div>
-      <h4>Become a franchisee! Start your own Margaret Hamilton Campus!</h4>
-      <form method='POST' action='/campuses'>
+      <h4>Become a franchisee! Start your own Margaret Hamilton Campus:</h4>
+      <form method='POST' action='http://localhost:1337/api/campuses'>
         <div className='form-section'>
           <label htmlFor='name'>Campus Name</label>
           <div>
@@ -20,9 +20,9 @@ const AddCampus = () => {
         </div>
         
         <div className='form-section'>
-          <label htmlFor='image'>Campus Image</label>
+          <label htmlFor='imageUrl'>Campus Image</label>
           <div>
-            <input name='image' type='text' defaultValue='must be a valid URL' />
+            <input name='imageUrl' type='text' defaultValue='must be a valid URL' />
           </div>
         </div>
         

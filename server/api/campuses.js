@@ -47,17 +47,17 @@ router.get('/:campusId/students', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const campus = await Campus.create(req.body)
-    res.json(campus)
+    res.redirect(`/campuses/${campus.id}`)
   } catch (err) {
     console.error(err)
     next(err)
   }
 })
 
-//PUT api/campuses -- edit a campus
+// PUT api/campuses -- edit a campus
 // router.put('/:studentId', async (req,res,next)=> {
 //   try {
-    
+//
 //   } catch (err) {
 //     console.error(err)
 //     next(err)
@@ -65,14 +65,18 @@ router.post('/', async (req, res, next) => {
 // })
 
 //DELETE api/campuses -- delete a campus from the db
-// router.delete('/:studentId', async (req, res, next) => {
-//   try {
-    
-//   } catch (err) {
-//     console.error(err)
-//     next(err)
-//   }
-// })
+router.delete('/:campusId', async (req, res, next) => {
+  try {
+    Campus.destroy({
+      where: {
+        id: req.params.campusId
+      }
+    })
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
 
 router.use((req, res, next) => {
   const err = new Error('API route not found!')

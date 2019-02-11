@@ -63,6 +63,7 @@ p {
 }
 
 .profileList {
+  font-size: 10pt;
   display: inline-flex;
   flex-direction: row;
   justify-content: space-between;

@@ -6,7 +6,7 @@ import AllStudents from './AllStudents'
 import SingleStudent from './SingleStudent'
 import AddStudent from './AddStudent'
 import AddCampus from './AddCampus'
-import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom'
 
 const Root = () => {
   return (
@@ -22,14 +22,14 @@ const Root = () => {
           </ul>
         </nav>
         <main>
-          <h1>Margaret Hamilton Academy of JavaScript!</h1>
+          <h1>Margaret Hamilton Academy of JavaScript</h1>
           <Switch>
             <Route exact path='/campuses' component={AllCampuses} />
             <Route path='/campuses/add' component={AddCampus} />
             <Route path='/campuses/:campusId' component={SingleCampus} />
             <Route exact path='/students' component={AllStudents} />
+            <Route path='/students/add' component={AddStudent} />
             <Route path='/students/:studentId' component={SingleStudent} />
-            {/* <Route exact path='/students/add' component={AddStudent} /> */}
           </Switch>
           <Route path='/campuses/:campusId/students' component={EnrolledStudents} />
         </main>

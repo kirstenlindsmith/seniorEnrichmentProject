@@ -32,7 +32,8 @@ router.get('/:studentId', async (req, res, next) => {
 //POST api/students -- add a new student
 router.post('/', async (req, res, next) => {
   try {
-    const [campus] = await Campus.findOrCreate({
+    // console.log('CAMPUS!!!', req.body.campus || 'New York')
+    const campus = await Campus.findOne({
       where: {
         name: req.body.campus || 'New York'
       }
@@ -40,9 +41,8 @@ router.post('/', async (req, res, next) => {
     const student = Student.build(req.body)
     student.setCampus(campus, {save: false})
     await student.save()
-    const returnedStudent = student.toJSON()
-    returnedStudent.campus = campus
-    res.json(returnedStudent)
+    student.campusId = campus.id
+    res.redirect(`/students/${student.id}`)
   } catch (err) {
     console.error(err)
     next(err)
@@ -50,24 +50,24 @@ router.post('/', async (req, res, next) => {
 })
 
 //PUT api/students -- edit a student
-router.put('/:studentId', async (req, res, next) => {
-  try {
+// router.put('/:studentId', async (req, res, next) => {
+//   try {
     
-  } catch (err) {
-    console.error(err)
-    next(err)
-  }
-})
+//   } catch (err) {
+//     console.error(err)
+//     next(err)
+//   }
+// })
 
 //DELETE api/students -- delete a student from the db
-router.delete('/:studentId', async (req, res, next) => {
-  try {
+// router.delete('/:studentId', async (req, res, next) => {
+//   try {
     
-  } catch (err) {
-    console.error(err)
-    next(err)
-  }
-})
+//   } catch (err) {
+//     console.error(err)
+//     next(err)
+//   }
+// })
 
 router.use((req, res, next) => {
   const err = new Error('API route not found!')
