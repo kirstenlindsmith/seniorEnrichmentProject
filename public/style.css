@@ -5,7 +5,7 @@
 
 * {
   box-sizing: border-box;
-  font-family: arial, sans-serif;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif
 }
 
 body {
@@ -132,3 +132,65 @@ p {
   justify-content: center;
 }
 
+button {
+  border-radius: 5px;
+  background-color: rgb(173, 77, 77);
+  color: white;
+}
+
+button:hover {
+  background-color: rgb(214, 23, 23);
+}
+
+button:disabled {
+  background-color: rgb(184, 184, 184);
+  color: rgb(212, 212, 212);
+  font-style: italic;
+}
+
+button:disabled:hover {
+  background-color: rgb(184, 184, 184);
+}
+
+.error {
+  border: 1px solid red
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+form input {
+  width: 100%;
+  border-radius: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+form textarea {
+  width: 100%;
+  border: 2px solid rgb(192, 192, 192);
+  border-radius: 5px;
+}
+
+form button {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.errorWarning {
+  color: rgb(192, 15, 15);
+  font-weight: bold;
+  font-size: 10px
+}
+
+.hidden {
+  display: none;
+}
+
+.formSection {
+  width: 60%
+}

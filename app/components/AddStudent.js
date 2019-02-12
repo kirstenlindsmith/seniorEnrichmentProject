@@ -1,59 +1,213 @@
-import React from 'react'
+import React, { Component } from 'react';
 
-const AddStudent = () => {
-  return(
-    <div>
-      <h4>Start Your Path to Javascript Development! Enroll Today:</h4>
-      <form method='POST' action='http://localhost:1337/api/students'>
-        <div className='form-section'>
-          <label htmlFor='firstName'>First Name</label>
-          <div>
-            <input name='firstName' type='text' />
-          </div>
-        </div>
-        
-        <div className='form-section'>
-          <label htmlFor='lastName'>Last Name</label>
-          <div>
-            <input name='lastName' type='text' />
-          </div>
-        </div>
-        
-        <div className='form-section'>
-          <label htmlFor='email'>Email</label>
-          <div>
-            <input name='email' type='text' />
-          </div>
-        </div>
-        
-        <div className='form-section'>
-          <label htmlFor='imageUrl'>Profile Image</label>
-          <div>
-            <input name='imageUrl' type='text' defaultValue='must be a valid URL' />
-          </div>
-        </div>
-        
-        <div className='form-section'>
-          <label htmlFor='gpa'>Transcript GPA</label>
-          <div>
-            <input name='gpa' type='number' step='0.1' min='0.0' max='4.0' />
-          </div>
-        </div>
-        
-        <div className='form-section'>
-          <label htmlFor='campus'>Campus Of Choice</label>
-          <div>
-            <input name='campus' type='text' />
-          </div>
-        </div>
-        
-        <div>
-          <button type='submit' className='button'>submit</button>
-        </div>
-        
-      </form>
-    </div>
-  )
-}
+class AddStudent extends Component {
+  constructor(){
+    super()
+    this.state = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      imageUrl: '',
+      interactedWith: {
+        firstName: false,
+        lastName: false,
+        email: false,
+        imageUrl: false
+      }
+    }
+    this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
+    this.handleLastNameChange = this.handleLastNameChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handleImageChange = this.handleImageChange.bind(this);
+    this.handleBlurWhenInteracting = this.handleBlurWhenInteracting.bind(this);
+    this.isImageValidUrl = this.isImageValidUrl.bind(this);
+    this.isEmailValid = this.isEmailValid.bind(this);
+    this.doFieldsHaveErrors = this.doFieldsHaveErrors.bind(this);
+    this.shouldTheFieldMarkError = this.shouldTheFieldMarkError.bind(this);
+  }
+  
+  handleFirstNameChange(event) {
+    this.setState({firstName: event.target.value})
+  }
+  
+  handleLastNameChange(event) {
+    this.setState({lastName: event.target.value})
+  }
+  
+  handleEmailChange(event) {
+    this.setState({email: event.target.value})
+  }
+  
+  handleImageChange(event) {
+    this.setState({imageUrl: event.target.value})
+  }
+  
+  handleBlurWhenInteracting(field) {
+    return () => {
+      this.setState({
+        interactedWith: {...this.state.interactedWith, [field]: true}
+      })
+    }
+  }
+  
+  isImageValidUrl() {
+    const { imageUrl } = this.state;
+    const imageFileTypes = ['jpg', 'jpeg', 'png', 'gif'];
+    const isValidFileTypePresent = imageFileTypes
+      .map(fileExtension => {
+        return imageUrl.includes(`.${fileExtension}`);
+      })
+      .includes(true);
 
-export default AddStudent
+    const containsUrlTraits =
+      imageUrl.includes('http') ||
+      imageUrl.includes('www') ||
+      imageUrl.includes('.gov') ||
+      imageUrl.includes('.edu') ||
+      imageUrl.includes('.com') ||
+      imageUrl.includes('.org') ||
+      imageUrl.includes('.co');
+
+    const imageIsUrl = isValidFileTypePresent && containsUrlTraits;
+
+    return imageIsUrl;
+  }
+  
+  isEmailValid(){
+    const { email } = this.state
+    const containsUrlTraits =
+      email.includes('http') ||
+      email.includes('www') ||
+      email.includes('.gov') ||
+      email.includes('.edu') ||
+      email.includes('.com') ||
+      email.includes('.org') ||
+      email.includes('.co');
+
+      const isEmail = email.includes('@') && containsUrlTraits
+      
+      return isEmail
+  }
+  
+  doFieldsHaveErrors(){
+    const {firstName, lastName} = this.state
+    return {
+      firstName: firstName.length === 0,
+      lastName: lastName.length === 0,
+      email: this.isEmailValid() === false,
+      imageUrl: this.isImageValidUrl() === false
+    }
+  }
+  
+  shouldTheFieldMarkError(field){
+    const errors = this.doFieldsHaveErrors()
+    const hasError = errors[field]
+    const shouldDisplayError = this.state.interactedWith[field]
+    
+    return hasError ? shouldDisplayError : false
+  }
+  
+  render(){
+    const isButtonWorking = !(Object.values(this.doFieldsHaveErrors()).includes(true))
+    const errorDisplay = this.shouldTheFieldMarkError
+    const isEmailWarningDisplayed = this.shouldTheFieldMarkError('email') ? 'errorWarning' : 'hidden'
+    const isImageWarningDisplayed = this.shouldTheFieldMarkError('imageUrl') ? 'errorWarning' : 'hidden'
+    
+    return (
+      <div>
+        <h4>Start Your Path to Javascript Development! Enroll Today:</h4>
+        <form method="POST" action="http://localhost:1337/api/students">
+          <div className="formSection">
+            <label htmlFor="firstName">First Name</label>
+            <div>
+              <input
+                name="firstName"
+                type="text"
+                onChange={this.handleFirstNameChange}
+                className={errorDisplay('firstName') ? 'error' : ''}
+                onBlur = {this.handleBlurWhenInteracting('firstName')}
+              />
+            </div>
+          </div>
+  
+          <div className="formSection">
+            <label htmlFor="lastName">Last Name</label>
+            <div>
+              <input
+                name="lastName"
+                type="text"
+                onChange={this.handleLastNameChange}
+                className={errorDisplay('lastName') ? 'error' : ''}
+                onBlur = {this.handleBlurWhenInteracting('lastName')}
+              />
+            </div>
+          </div>
+  
+          <div className="formSection">
+            <label htmlFor="email">Email</label>
+            <div>
+              <input
+                name="email"
+                type="text"
+                onChange={this.handleEmailChange}
+                className={errorDisplay('email') ? 'error' : ''}
+                onBlur = {this.handleBlurWhenInteracting('email')}
+              />
+              <span className={isEmailWarningDisplayed}>Must be a valid email address</span>
+            </div>
+          </div>
+  
+          <div className="formSection">
+            <label htmlFor="imageUrl">Profile Image</label>
+            <div>
+              <input
+                name="imageUrl"
+                type="text"
+                onChange={this.handleImageChange}
+                className={errorDisplay('imageUrl') ? 'error' : ''}
+                onBlur = {this.handleBlurWhenInteracting('imageUrl')}
+              />
+              <span className={isImageWarningDisplayed}>Must be direct URL to image file</span>
+            </div>
+          </div>
+  
+          <div className="formSection">
+            <label htmlFor="gpa">Transcript GPA <i>(optional)</i></label>
+            <div>
+              <input
+                name="gpa"
+                type="number"
+                step="0.1"
+                min="0.0"
+                max="4.0"
+              />
+            </div>
+          </div>
+  
+          <div className="formSection">
+            <label htmlFor="campus">Campus Of Choice</label>
+            <div>
+              <input
+                name="campus"
+                type="text"
+                defaultValue="New York"
+              />
+            </div>
+          </div>
+  
+          <div className="formSection">
+            <button
+              type="submit"
+              className="button"
+              disabled={!isButtonWorking}
+            >
+              submit
+            </button>
+          </div>
+        </form>
+      </div>
+    );
+  }
+};
+
+export default AddStudent;
