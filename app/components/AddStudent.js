@@ -1,55 +1,70 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getCampusesFromServer } from '../actionCreators';
 
 class AddStudent extends Component {
-  constructor(){
-    super()
+  constructor() {
+    super();
     this.state = {
       firstName: '',
       lastName: '',
       email: '',
       imageUrl: '',
+      campus: '',
       interactedWith: {
         firstName: false,
         lastName: false,
         email: false,
-        imageUrl: false
-      }
-    }
+        imageUrl: false,
+        campus: false,
+      },
+    };
     this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
     this.handleLastNameChange = this.handleLastNameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
+    this.handleCampusChange = this.handleCampusChange.bind(this);
     this.handleBlurWhenInteracting = this.handleBlurWhenInteracting.bind(this);
     this.isImageValidUrl = this.isImageValidUrl.bind(this);
     this.isEmailValid = this.isEmailValid.bind(this);
     this.doFieldsHaveErrors = this.doFieldsHaveErrors.bind(this);
     this.shouldTheFieldMarkError = this.shouldTheFieldMarkError.bind(this);
+    this.variablesForRender = this.variablesForRender.bind(this);
   }
-  
+
+  componentDidMount() {
+    this.props.loadCampuses();
+  }
+
   handleFirstNameChange(event) {
-    this.setState({firstName: event.target.value})
+    this.setState({ firstName: event.target.value });
   }
-  
+
   handleLastNameChange(event) {
-    this.setState({lastName: event.target.value})
+    this.setState({ lastName: event.target.value });
   }
-  
+
   handleEmailChange(event) {
-    this.setState({email: event.target.value})
+    this.setState({ email: event.target.value });
   }
-  
+
   handleImageChange(event) {
-    this.setState({imageUrl: event.target.value})
+    this.setState({ imageUrl: event.target.value });
   }
-  
+
+  handleCampusChange(event) {
+    this.setState({ campus: event.target.value });
+  }
+
   handleBlurWhenInteracting(field) {
     return () => {
       this.setState({
-        interactedWith: {...this.state.interactedWith, [field]: true}
-      })
-    }
+        interactedWith: { ...this.state.interactedWith, [field]: true },
+      });
+    };
   }
-  
+
   isImageValidUrl() {
     const { imageUrl } = this.state;
     const imageFileTypes = ['jpg', 'jpeg', 'png', 'gif'];
@@ -72,9 +87,9 @@ class AddStudent extends Component {
 
     return imageIsUrl;
   }
-  
-  isEmailValid(){
-    const { email } = this.state
+
+  isEmailValid() {
+    const { email } = this.state;
     const containsUrlTraits =
       email.includes('http') ||
       email.includes('www') ||
@@ -84,35 +99,74 @@ class AddStudent extends Component {
       email.includes('.org') ||
       email.includes('.co');
 
-      const isEmail = email.includes('@') && containsUrlTraits
-      
-      return isEmail
+    const isEmail = email.includes('@') && containsUrlTraits;
+
+    return isEmail;
   }
-  
-  doFieldsHaveErrors(){
-    const {firstName, lastName} = this.state
+
+  isCampusValid() {
+    const { campus } = this.state;
+    const campuses = this.props.allCampuses || [];
+    const doesCampusExist = campuses
+      .map(campusObj => {
+        return campusObj.name.toLowerCase() === campus.toLowerCase();
+      })
+      .includes(true);
+    return doesCampusExist;
+  }
+
+  doFieldsHaveErrors() {
+    const { firstName, lastName } = this.state;
     return {
       firstName: firstName.length === 0,
       lastName: lastName.length === 0,
       email: this.isEmailValid() === false,
-      imageUrl: this.isImageValidUrl() === false
-    }
+      imageUrl: this.isImageValidUrl() === false,
+      campus: this.isCampusValid() === false,
+    };
   }
-  
-  shouldTheFieldMarkError(field){
-    const errors = this.doFieldsHaveErrors()
-    const hasError = errors[field]
-    const shouldDisplayError = this.state.interactedWith[field]
-    
-    return hasError ? shouldDisplayError : false
+
+  shouldTheFieldMarkError(field) {
+    const errors = this.doFieldsHaveErrors();
+    const hasError = errors[field];
+    const shouldDisplayError = this.state.interactedWith[field];
+
+    return hasError ? shouldDisplayError : false;
   }
-  
-  render(){
-    const isButtonWorking = !(Object.values(this.doFieldsHaveErrors()).includes(true))
-    const errorDisplay = this.shouldTheFieldMarkError
-    const isEmailWarningDisplayed = this.shouldTheFieldMarkError('email') ? 'errorWarning' : 'hidden'
-    const isImageWarningDisplayed = this.shouldTheFieldMarkError('imageUrl') ? 'errorWarning' : 'hidden'
-    
+
+  variablesForRender() {
+    const isButtonWorking = !Object.values(this.doFieldsHaveErrors()).includes(
+      true
+    );
+    const errorDisplay = this.shouldTheFieldMarkError;
+    const isEmailWarningDisplayed = this.shouldTheFieldMarkError('email')
+      ? 'errorWarning'
+      : 'hidden';
+    const isImageWarningDisplayed = this.shouldTheFieldMarkError('imageUrl')
+      ? 'errorWarning'
+      : 'hidden';
+    const isCampusWarningDisplayed = this.shouldTheFieldMarkError('campus')
+      ? 'errorWarning'
+      : 'hidden';
+
+    return {
+      isButtonWorking: isButtonWorking,
+      errorDisplay: errorDisplay,
+      isEmailWarningDisplayed: isEmailWarningDisplayed,
+      isImageWarningDisplayed: isImageWarningDisplayed,
+      isCampusWarningDisplayed: isCampusWarningDisplayed,
+    };
+  }
+
+  render() {
+    const {
+      isButtonWorking,
+      errorDisplay,
+      isEmailWarningDisplayed,
+      isImageWarningDisplayed,
+      isCampusWarningDisplayed,
+    } = this.variablesForRender();
+
     return (
       <div>
         <h4>Start Your Path to Javascript Development! Enroll Today:</h4>
@@ -125,11 +179,11 @@ class AddStudent extends Component {
                 type="text"
                 onChange={this.handleFirstNameChange}
                 className={errorDisplay('firstName') ? 'error' : ''}
-                onBlur = {this.handleBlurWhenInteracting('firstName')}
+                onBlur={this.handleBlurWhenInteracting('firstName')}
               />
             </div>
           </div>
-  
+
           <div className="formSection">
             <label htmlFor="lastName">Last Name</label>
             <div>
@@ -138,11 +192,11 @@ class AddStudent extends Component {
                 type="text"
                 onChange={this.handleLastNameChange}
                 className={errorDisplay('lastName') ? 'error' : ''}
-                onBlur = {this.handleBlurWhenInteracting('lastName')}
+                onBlur={this.handleBlurWhenInteracting('lastName')}
               />
             </div>
           </div>
-  
+
           <div className="formSection">
             <label htmlFor="email">Email</label>
             <div>
@@ -151,12 +205,14 @@ class AddStudent extends Component {
                 type="text"
                 onChange={this.handleEmailChange}
                 className={errorDisplay('email') ? 'error' : ''}
-                onBlur = {this.handleBlurWhenInteracting('email')}
+                onBlur={this.handleBlurWhenInteracting('email')}
               />
-              <span className={isEmailWarningDisplayed}>Must be a valid email address</span>
+              <span className={isEmailWarningDisplayed}>
+                Must be a valid email address
+              </span>
             </div>
           </div>
-  
+
           <div className="formSection">
             <label htmlFor="imageUrl">Profile Image</label>
             <div>
@@ -165,25 +221,23 @@ class AddStudent extends Component {
                 type="text"
                 onChange={this.handleImageChange}
                 className={errorDisplay('imageUrl') ? 'error' : ''}
-                onBlur = {this.handleBlurWhenInteracting('imageUrl')}
+                onBlur={this.handleBlurWhenInteracting('imageUrl')}
               />
-              <span className={isImageWarningDisplayed}>Must be direct URL to image file</span>
+              <span className={isImageWarningDisplayed}>
+                Must be direct URL to image file
+              </span>
             </div>
           </div>
-  
+
           <div className="formSection">
-            <label htmlFor="gpa">Transcript GPA <i>(optional)</i></label>
+            <label htmlFor="gpa">
+              Transcript GPA <i>(optional)</i>
+            </label>
             <div>
-              <input
-                name="gpa"
-                type="number"
-                step="0.1"
-                min="0.0"
-                max="4.0"
-              />
+              <input name="gpa" type="number" step="0.1" min="0.0" max="4.0" />
             </div>
           </div>
-  
+
           <div className="formSection">
             <label htmlFor="campus">Campus Of Choice</label>
             <div>
@@ -191,10 +245,17 @@ class AddStudent extends Component {
                 name="campus"
                 type="text"
                 defaultValue="New York"
+                onChange={this.handleCampusChange}
+                className={errorDisplay('campus') ? 'error' : ''}
+                onBlur={this.handleBlurWhenInteracting('campus')}
               />
+              <span className={isCampusWarningDisplayed}>
+                Must be an existing school campus.{' '}
+                <Link to="/campuses/add">Start your own</Link>
+              </span>
             </div>
           </div>
-  
+
           <div className="formSection">
             <button
               type="submit"
@@ -208,6 +269,26 @@ class AddStudent extends Component {
       </div>
     );
   }
+}
+
+const mapStateToProps = state => {
+  return {
+    allCampuses: state.campusState.campuses,
+  };
 };
 
-export default AddStudent;
+const mapDispatchToProps = dispatch => {
+  return {
+    loadCampuses: () => {
+      const thunkAction = getCampusesFromServer();
+      dispatch(thunkAction);
+    },
+  };
+};
+
+const ConnectedAddStudentComponent = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddStudent);
+
+export default ConnectedAddStudentComponent;

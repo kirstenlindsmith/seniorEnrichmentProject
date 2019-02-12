@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize')
 const db = require('../database')
-// const Student = require('./Student')
 
 module.exports = db.define('campus', {
   name: {

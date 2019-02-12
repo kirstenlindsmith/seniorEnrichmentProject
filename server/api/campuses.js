@@ -55,14 +55,37 @@ router.post('/', async (req, res, next) => {
 })
 
 // PUT api/campuses -- edit a campus
-// router.put('/:studentId', async (req,res,next)=> {
-//   try {
-//
-//   } catch (err) {
-//     console.error(err)
-//     next(err)
-//   }
-// })
+router.put('/:campusId', async (req, res, next) => {
+  try {
+    // const updatedCampus = await Campus.update(
+    //   {name: req.body.name,
+    //   address: req.body.address,
+    //   imageUrl: req.body.imageUrl,
+    //   description: req.body.description},
+    //   {where: {id: req.params.campusId}}
+    // )
+    
+    // const changedCampus = await Campus.findOne({
+    //   where: {
+    //     id: req.params.campusId
+    //   }
+    // })
+    // changedCampus.update({
+    //   name: req.body.name,
+    //   address: req.body.address,
+    //   imageUrl: req.body.imageUrl,
+    //   description: req.body.description
+    // })
+    console.log('put hit!!!')
+    const campusId = req.params.campusId
+    const campus = await Campus.findById(campusId)
+    await campus.update(req.body)
+    res.redirect(`/campuses/${campus.id}`)
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
 
 //DELETE api/campuses -- delete a campus from the db
 router.delete('/:campusId', async (req, res, next) => {

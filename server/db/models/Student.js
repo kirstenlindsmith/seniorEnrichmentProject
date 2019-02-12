@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../database')
+const Campus = require('./Campus')
 
 module.exports = db.define('student', {
   firstName: {
@@ -36,4 +37,11 @@ module.exports = db.define('student', {
       max: 4.0
     }
   }
-})
+}, {
+  defaultScope: {
+    include: [
+      { model: Campus }
+    ]
+  }
+}
+)

@@ -33,11 +33,12 @@ router.get('/:studentId', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     // console.log('CAMPUS!!!', req.body.campus || 'New York')
-    const campus = await Campus.findOne({
+    let campus = await Campus.findOne({
       where: {
         name: req.body.campus || 'New York'
       }
     })
+    if (campus === undefined) campus = 'New York'
     const student = Student.build(req.body)
     student.setCampus(campus, {save: false})
     await student.save()
@@ -50,14 +51,14 @@ router.post('/', async (req, res, next) => {
 })
 
 //PUT api/students -- edit a student
-// router.put('/:studentId', async (req, res, next) => {
-//   try {
+router.put('/:studentId', async (req, res, next) => {
+  try {
     
-//   } catch (err) {
-//     console.error(err)
-//     next(err)
-//   }
-// })
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
 
 //DELETE api/students -- delete a student from the db
 router.delete('/:studentId', async (req, res, next) => {

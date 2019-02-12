@@ -6,13 +6,13 @@ import {GET_CAMPUSES, GET_ONE_CAMPUS, GET_STUDENTS, GET_ONE_STUDENT, GET_ENROLLE
 
 const initialCampusState = {
   campuses: [],
-  selectedCampus: {}
+  selectedCampus: {},
 }
 
 const initialStudentState = {
   students: [],
   enrolledStudents: [],
-  selectedStudent: {}
+  selectedStudent: {},
 }
 
 export const campusReducer = (state=initialCampusState, action) => {
@@ -23,7 +23,6 @@ export const campusReducer = (state=initialCampusState, action) => {
       return {...state, selectedCampus: action.campus}
     case REMOVE_CAMPUS: {
       const newCampuses = state.campuses.filter(campus => campus.id !== action.id)
-      console.log('NEW CAMPUS ARRAY!!!', newCampuses)
       return {...state, campuses: newCampuses}
     }
     default: return state
@@ -31,7 +30,7 @@ export const campusReducer = (state=initialCampusState, action) => {
 }
 
 export const studentReducer = (state=initialStudentState, action) => {
-  switch(action.type){
+  switch (action.type){
     case GET_STUDENTS:
       return {...state, students: action.students}
     case GET_ONE_STUDENT:
