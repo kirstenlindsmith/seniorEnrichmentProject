@@ -53,7 +53,7 @@ p {
 }
 
 .profileImage {
-  height: 100px
+  height: 130px
 }
 
 .singleImage {
@@ -77,7 +77,11 @@ p {
 }
 
 .profileElem {
-  padding: 10px
+  padding: 10px;
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .description {

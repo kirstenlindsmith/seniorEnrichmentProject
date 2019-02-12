@@ -67,11 +67,12 @@ router.post('/', async (req, res, next) => {
 //DELETE api/campuses -- delete a campus from the db
 router.delete('/:campusId', async (req, res, next) => {
   try {
-    Campus.destroy({
+    await Campus.destroy({
       where: {
         id: req.params.campusId
       }
     })
+    res.sendStatus(202)
   } catch (err) {
     console.error(err)
     next(err)

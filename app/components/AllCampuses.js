@@ -1,69 +1,74 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {Link, withRouter} from 'react-router-dom'
-import {getCampusesFromServer, removeCampusFromServer} from '../actionCreators'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import {
+  getCampusesFromServer,
+  removeCampusFromServer,
+} from '../actionCreators';
 
 class AllCampuses extends Component {
-  
-  componentDidMount(){
-    this.props.loadCampuses()
+  componentDidMount() {
+    this.props.loadCampuses();
   }
-  
-  render(){
-    const campuses = this.props.allCampuses || []
-    const remove = this.props.removeCampus
+
+  render() {
+    const campuses = this.props.allCampuses || [];
+    const remove = this.props.removeCampus;
 
     return (
       <div className="center">
         <ul className="profileList">
-          {
-            campuses.map(campus => {
-              return (
-                <div key={campus.id}>
-                  <div className="profileElem">
+          {campuses.map(campus => {
+            return (
+              <div key={campus.id}>
+                <div className="profileElem">
                   <div>
-                    <Link to={`/campuses/${campus.id}`}>
-                      {campus.name}
-                    </Link>
+                    <Link to={`/campuses/${campus.id}`}>{campus.name}</Link>{' '}
+                    <button
+                      type="button"
+                      className="remove"
+                      onClick={() => {
+                        remove(campus.id);
+                      }}
+                    >
+                      X
+                    </button>
                   </div>
                   <Link to={`/campuses/${campus.id}`}>
                     <img src={campus.imageUrl} className="profileImage" />
                   </Link>
-                  </div>
-                  <button type='button' className='remove' onClick={()=>{
-                      remove(campus.id)
-                    }}>remove
-                  </button>
                 </div>
-              )
-            })
-          }
+              </div>
+            );
+          })}
         </ul>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    allCampuses: state.campusState.campuses
-  }
-}
+    allCampuses: state.campusState.campuses,
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     loadCampuses: () => {
-      const thunkAction = getCampusesFromServer()
-      dispatch(thunkAction)
+      const thunkAction = getCampusesFromServer();
+      dispatch(thunkAction);
     },
-    removeCampus: (campusId) => {
-      const thunkAction = removeCampusFromServer(campusId)
-      console.log("REMOVE HIT!!!", thunkAction)
-      dispatch(thunkAction)
-    }
-  }
-}
+    removeCampus: campusId => {
+      const thunkAction = removeCampusFromServer(campusId);
+      dispatch(thunkAction);
+    },
+  };
+};
 
-const ConnectedAllCampusesComponent = connect(mapStateToProps, mapDispatchToProps)(AllCampuses)
+const ConnectedAllCampusesComponent = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AllCampuses);
 
-export default withRouter(ConnectedAllCampusesComponent)
+export default ConnectedAllCampusesComponent;

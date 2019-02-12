@@ -88,7 +88,9 @@ export const removeCampusFromServer = (campusId) => {
   return async (dispatch) => {
     try {
       await axios.delete(`/api/campuses/${campusId}`)
-      dispatch(removeCampus(campusId))
+      const action = removeCampus(campusId)
+      console.log('REMOVE CAMPUS ACTION!', action)
+      dispatch(action)
     } catch (err) {
       console.error(err)
     }

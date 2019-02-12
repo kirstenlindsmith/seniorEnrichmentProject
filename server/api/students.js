@@ -67,6 +67,7 @@ router.delete('/:studentId', async (req, res, next) => {
         id: req.params.studentId
       }
     })
+    res.sendStatus(202)
   } catch (err) {
     console.error(err)
     next(err)
