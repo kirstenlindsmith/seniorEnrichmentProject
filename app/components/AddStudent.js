@@ -248,7 +248,7 @@ class AddStudent extends Component {
 
           <div className="formSection">
             <label htmlFor="gpa">
-              Transcript GPA <i>(optional)</i>
+              Transcript GPA
             </label>
             <div>
               <input
