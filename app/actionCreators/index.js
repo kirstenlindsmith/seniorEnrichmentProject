@@ -9,6 +9,7 @@ export const GET_ENROLLED_STUDENTS = 'GET_ENROLLED_STUDENTS'
 export const REMOVE_CAMPUS = 'REMOVE_CAMPUS'
 export const REMOVE_STUDENT = 'REMOVE_STUDENT'
 export const UPDATE_CAMPUS = 'UPDATE_CAMPUS'
+export const UPDATE_STUDENT = 'UPDATE_STUDENT'
 
 
 //sync action creators
@@ -65,6 +66,13 @@ export const removeStudent = (studentId) => {
   return {
     type: REMOVE_STUDENT,
     id: studentId
+  }
+}
+
+export const updateStudent = (student) => {
+  return {
+    type: UPDATE_STUDENT,
+    student
   }
 }
 
@@ -154,6 +162,18 @@ export const removeStudentFromServer = (studentId) => {
     try {
       await axios.delete(`/api/students/${studentId}`)
       dispatch(removeStudent(studentId))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}
+
+export const updateStudentInServer = (studentId) => {
+  return async (dispatch) => {
+    try {
+      const student = await axios.get(`/api/students/${campusId}`)
+      await axios.put(`/api/students/${studentId}`, student.data)
+      dispatch(updateStudent(student.data))
     } catch (err) {
       console.error(err)
     }

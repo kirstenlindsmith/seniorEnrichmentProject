@@ -53,7 +53,13 @@ router.post('/', async (req, res, next) => {
 //PUT api/students -- edit a student
 router.put('/:studentId', async (req, res, next) => {
   try {
-    
+    const student = await Student.findOne({
+      where: {
+        id: req.params.studentId
+      }
+    })
+    await student.update(req.body)
+    res.status(204).json(student)
   } catch (err) {
     console.error(err)
     next(err)

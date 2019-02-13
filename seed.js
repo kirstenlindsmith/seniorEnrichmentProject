@@ -19,6 +19,22 @@ const students = [
     gpa: 4.0,
     campusId: 1
   },
+  {
+    firstName: 'Kirsten',
+    lastName: 'Lindsmith',
+    email: 'kirstenlindsmith@gmail.com',
+    imageUrl: 'https://i.imgur.com/Mc0B0Jl.png?1',
+    gpa: 3.6,
+    campusId: 1
+  },
+  {
+    firstName: 'Buffy',
+    lastName: 'The Cat',
+    email: 'buffaluffagus802@gmail.com',
+    imageUrl: 'https://i.imgur.com/ZA6c9ug.png',
+    gpa: 2.4,
+    campusId: 1
+  }
 ]
 
 const campuses = [

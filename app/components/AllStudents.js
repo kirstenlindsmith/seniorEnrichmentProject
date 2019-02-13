@@ -7,8 +7,30 @@ import {
 } from '../actionCreators';
 
 class AllStudents extends Component {
+  constructor() {
+    super();
+    this.state = {
+      loading: true,
+    };
+    this.load = this.load.bind(this);
+  }
+
   componentDidMount() {
     this.props.loadStudents();
+    this.setState({ loading: false });
+  }
+
+  load() {
+    const loaderClass = this.state.loading ? 'lds-ring' : 'hidden';
+
+    return (
+      <div className={loaderClass}>
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    );
   }
 
   render() {
@@ -18,6 +40,7 @@ class AllStudents extends Component {
     return (
       <div>
         <ul className="profileList">
+          {this.load()}
           {students.map(student => {
             return (
               <div key={student.id} className="profileElem">
@@ -32,7 +55,7 @@ class AllStudents extends Component {
                       remove(student.id);
                     }}
                   >
-                    X
+                    x
                   </button>
                 </div>
                 <Link to={`/students/${student.id}`}>

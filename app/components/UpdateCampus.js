@@ -9,12 +9,15 @@ class UpdateCampus extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.campus.name,
-      address: this.props.campus.address,
-      imageUrl: this.props.campus.imageUrl,
-      description: this.props.campus.description,
+      name: this.props.campus.name || '',
+      address: this.props.campus.address || '',
+      imageUrl: this.props.campus.imageUrl || '',
+      description: this.props.campus.description || '',
       interactedWith: false,
+      loading: true,
     };
+    this.load = this.load.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleAddressChange = this.handleAddressChange.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
@@ -23,10 +26,52 @@ class UpdateCampus extends Component {
     this.isImageValidUrl = this.isImageValidUrl.bind(this);
     this.doFieldsHaveErrors = this.doFieldsHaveErrors.bind(this);
     this.shouldTheFieldMarkError = this.shouldTheFieldMarkError.bind(this);
+    this.updateState = this.updateState.bind(this);
   }
 
   componentDidMount() {
     this.props.loadOneCampus();
+    this.setState({ loading: false });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.name !== this.props.campus.name) {
+      this.updateState();
+    }
+  }
+
+  updateState() {
+    this.setState({
+      name: this.props.campus.name,
+      address: this.props.campus.address,
+      imageUrl: this.props.campus.imageUrl,
+      description: this.props.campus.description,
+      interactedWith: false,
+      loading: true,
+    });
+  }
+
+  load() {
+    const loaderClass = this.state.loading ? 'lds-ring' : 'hidden';
+
+    return (
+      <div className={loaderClass}>
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    );
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.handleSubmit(
+      this.state.name,
+      this.state.address,
+      this.state.imageUrl,
+      this.state.description
+    );
   }
 
   handleNameChange(event) {
@@ -90,7 +135,6 @@ class UpdateCampus extends Component {
 
   render() {
     const campus = this.props.campus;
-    const campusId = this.props.campus.id;
     const isButtonWorking = !Object.values(this.doFieldsHaveErrors()).includes(
       true
     );
@@ -101,18 +145,15 @@ class UpdateCampus extends Component {
 
     return (
       <div className="center updateForm">
+        {this.load()}
         <h4>Edit the {campus.name} Campus:</h4>
-        <form
-          className="updateForm"
-          onSubmit={() => this.props.handleSubmit(event)}
-        >
+        <form className="updateForm" onSubmit={() => this.handleSubmit(event)}>
           <div className="formSection">
             <label htmlFor="name">Campus Name</label>
             <div>
               <input
                 name="name"
                 type="text"
-                // defaultValue={campus.name}
                 value={this.state.name}
                 onChange={this.handleNameChange}
               />
@@ -125,7 +166,6 @@ class UpdateCampus extends Component {
               <input
                 name="address"
                 type="text"
-                // defaultValue={campus.address}
                 value={this.state.address}
                 onChange={this.handleAddressChange}
               />
@@ -138,7 +178,6 @@ class UpdateCampus extends Component {
               <input
                 name="imageUrl"
                 type="text"
-                // defaultValue={campus.imageUrl}
                 value={this.state.imageUrl}
                 onChange={this.handleImageChange}
                 className={errorDisplay('imageUrl') ? 'error' : ''}
@@ -155,7 +194,6 @@ class UpdateCampus extends Component {
             <div>
               <textarea
                 name="description"
-                // defaultValue={campus.description}
                 value={this.state.description}
                 onChange={this.handleDescriptionChange}
               />
@@ -177,9 +215,10 @@ class UpdateCampus extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   return {
     campus: state.campusState.selectedCampus,
+    campusId: ownProps.match.params.campusId,
   };
 };
 
@@ -190,15 +229,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const thunkAction = getOneCampusFromServer(campusId);
       dispatch(thunkAction);
     },
-    handleSubmit: event => {
-      event.preventDefault();
+    handleSubmit: (name, address, imageUrl, description) => {
       dispatch(
         updateCampusInServer(
           {
-            name: this.state.name,
-            address: this.state.address,
-            imageUrl: this.state.imageUrl,
-            description: this.state.description,
+            name: name,
+            address: address,
+            imageUrl: imageUrl,
+            description: description,
           },
           ownProps.history
         )

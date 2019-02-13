@@ -7,8 +7,30 @@ import {
 } from '../actionCreators';
 
 class AllCampuses extends Component {
+  constructor() {
+    super();
+    this.state = {
+      loading: true,
+    };
+    this.load = this.load.bind(this);
+  }
+
   componentDidMount() {
     this.props.loadCampuses();
+    this.setState({ loading: false });
+  }
+
+  load() {
+    const loaderClass = this.state.loading ? 'lds-ring' : 'hidden';
+
+    return (
+      <div className={loaderClass}>
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    );
   }
 
   render() {
@@ -17,6 +39,7 @@ class AllCampuses extends Component {
 
     return (
       <div className="center">
+        {this.load()}
         <ul className="profileList">
           {campuses.map(campus => {
             return (
@@ -31,7 +54,7 @@ class AllCampuses extends Component {
                         remove(campus.id);
                       }}
                     >
-                      X
+                      x
                     </button>
                   </div>
                   <Link to={`/campuses/${campus.id}`}>

@@ -47,11 +47,12 @@ const Root = () => {
             <Route exact path="/campuses/:campusId" component={SingleCampus} />
             <Route exact path="/students" component={AllStudents} />
             <Route path="/students/add" component={AddStudent} />
-            <Route path="/students/:studentId" component={SingleStudent} />
-            <Route path="/campuses/:campusId/students" component={EnrolledStudents} />
-            <Route epath="/campuses/:campusId/update" component={UpdateCampus} />
+            <Route exact path="/students/:studentId" component={SingleStudent} />
+            <Route path="/campuses/:campusId/update" component={UpdateCampus} />
+            <Route path="/students/:studentId/update" component={UpdateStudent} />
             <Route component={NoMatch} />
           </Switch>
+            <Route path="/campuses/:campusId/students" component={EnrolledStudents} />
         </main>
       </div>
     </Router>

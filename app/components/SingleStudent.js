@@ -4,9 +4,30 @@ import { getOneStudentFromServer } from '../actionCreators';
 import { Link } from 'react-router-dom';
 
 class SingleStudent extends Component {
+  constructor() {
+    super();
+    this.state = {
+      loading: true,
+    };
+    this.load = this.load.bind(this);
+  }
 
   componentDidMount() {
     this.props.loadOneStudent();
+    this.setState({ loading: false });
+  }
+
+  load() {
+    const loaderClass = this.state.loading ? 'lds-ring' : 'hidden';
+
+    return (
+      <div className={loaderClass}>
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    );
   }
 
   render() {
@@ -14,58 +35,77 @@ class SingleStudent extends Component {
 
     if (!student || !Object.keys(student).length) {
       return (
-        <div className="NotFound">
+        <div className="NotFound center">
+          {this.load()}
           <div>
             <img
-              src="https://www.hostinger.co.uk/assets/images/404-3a53e76ef1.png"
+              src="https://aik.com.ua/image/catalog/404-cat.png"
               id="NotFoundImg"
             />
           </div>
           <div>
-            <h1>404</h1>
             <h4>
-              Sorry for the inconvenience, but the URL in your address bar goes
-              nowhere...
+              Sorry for the inconvenience,<br /> but the URL in your address bar
+              goes nowhere...
             </h4>
           </div>
         </div>
       );
     } else {
-
       const campus = this.props.student.campus || {};
 
       if (Object.keys(campus).length) {
-      return (
-        <div>
-          <div className="profileSingle">
-            <h2 className="pageTitle">
-              {student.firstName} {student.lastName}
-            </h2>
-            <h4>
-              Enrolled Campus:
-              <Link to={`/campuses/${campus.id}`} id="studentCampusLink">
-                {campus.name}
-              </Link>
-            </h4>
-            <p className="smallText">GPA: {student.gpa}</p>
-            <p className="smallText">{student.email}</p>
-            <img src={student.imageUrl} className="singleImage" />
+        return (
+          <div>
+            <div className="profileSingle">
+              {this.load()}
+              <h2 className="pageTitle">
+                {student.firstName} {student.lastName}
+              </h2>
+              <h4>
+                Enrolled Campus:
+                <Link to={`/campuses/${campus.id}`} id="studentCampusLink">
+                  {campus.name}
+                </Link>
+              </h4>
+              <p className="smallText">GPA: {student.gpa}</p>
+              <p className="smallText">{student.email}</p>
+              <button type="button" className="button">
+                <Link
+                  to={`/students/${student.id}/update`}
+                  className="editLink"
+                >
+                  edit student profile
+                </Link>
+              </button>
+              <img src={student.imageUrl} className="singleImage" />
+            </div>
           </div>
-        </div>
-      );
-    } else {return (
-        <div>
-          <div className="profileSingle">
-            <h2 className="pageTitle">
-              {student.firstName} {student.lastName}
-            </h2>
-            <h4>Not Enrolled Student</h4>
-            <p className="smallText">GPA: {student.gpa}</p>
-            <p className="smallText">{student.email}</p>
-            <img src={student.imageUrl} className="singleImage" />
+        );
+      } else {
+        return (
+          <div>
+            <div className="profileSingle">
+              {this.load()}
+              <h2 className="pageTitle">
+                {student.firstName} {student.lastName}
+              </h2>
+              <h4>Not Enrolled Student</h4>
+              <p className="smallText">GPA: {student.gpa}</p>
+              <p className="smallText">{student.email}</p>
+              <button type="button" className="button">
+                <Link
+                  to={`/students/${student.id}/update`}
+                  className="editLink"
+                >
+                  edit student profile
+                </Link>
+              </button>
+              <img src={student.imageUrl} className="singleImage" />
+            </div>
           </div>
-        </div>
-      );}
+        );
+      }
     }
   }
 }

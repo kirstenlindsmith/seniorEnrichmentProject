@@ -2,10 +2,33 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, Route, Switch } from 'react-router-dom';
 import { getOneCampusFromServer } from '../actionCreators';
+import Loading from './Loading';
 
 class SingleCampus extends Component {
+  constructor() {
+    super();
+    this.state = {
+      loading: true,
+    };
+    this.load = this.load.bind(this);
+  }
+
   componentDidMount() {
     this.props.loadOneCampus();
+    this.setState({ loading: false });
+  }
+
+  load() {
+    const loaderClass = this.state.loading ? 'lds-ring' : 'hidden';
+
+    return (
+      <div className={loaderClass}>
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    );
   }
 
   render() {
@@ -13,18 +36,18 @@ class SingleCampus extends Component {
 
     if (!campus || !Object.keys(campus).length) {
       return (
-        <div className="NotFound">
+        <div className="NotFound center">
+          {this.load()}
           <div>
             <img
-              src="https://www.hostinger.co.uk/assets/images/404-3a53e76ef1.png"
+              src="https://aik.com.ua/image/catalog/404-cat.png"
               id="NotFoundImg"
             />
           </div>
           <div>
-            <h1>404</h1>
             <h4>
-              Sorry for the inconvenience, but the URL in your address bar goes
-              nowhere...
+              Sorry for the inconvenience,<br /> but the URL in your address bar
+              goes nowhere...
             </h4>
           </div>
         </div>
@@ -33,6 +56,7 @@ class SingleCampus extends Component {
       return (
         <div>
           <div className="profileSingle">
+            {this.load()}
             <h2 className="pageTitle">{campus.name} Campus</h2>
             <p className="smallText">{campus.address}</p>
             <p className="description">{campus.description}</p>

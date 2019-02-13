@@ -64,18 +64,6 @@ router.put('/:campusId', async (req, res, next) => {
     //   description: req.body.description},
     //   {where: {id: req.params.campusId}}
     // )
-    
-    // const changedCampus = await Campus.findOne({
-    //   where: {
-    //     id: req.params.campusId
-    //   }
-    // })
-    // changedCampus.update({
-    //   name: req.body.name,
-    //   address: req.body.address,
-    //   imageUrl: req.body.imageUrl,
-    //   description: req.body.description
-    // })
 
     const campusId = req.params.campusId
     const campus = await Campus.findOne({
@@ -84,7 +72,8 @@ router.put('/:campusId', async (req, res, next) => {
       }
     })
     await campus.update(req.body)
-    res.redirect(`/campuses/${campus.id}`)
+    res.status(200).json(campus)
+    // res.redirect(`/campuses/${campus.id}`)
   } catch (err) {
     console.error(err)
     next(err)
