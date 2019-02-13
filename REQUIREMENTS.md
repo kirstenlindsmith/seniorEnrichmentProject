@@ -141,8 +141,8 @@ Congrats! You have completed your fourth vertical slice! Make sure to `commit -m
 
 #### Backend
 
-- [ ] Write a route to update an existing campus
-- [ ] Write a route to update an existing student
+- [ x] Write a route to update an existing campus
+- [ x] Write a route to update an existing student
 
 #### Frontend
 

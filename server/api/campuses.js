@@ -57,23 +57,13 @@ router.post('/', async (req, res, next) => {
 // PUT api/campuses -- edit a campus
 router.put('/:campusId', async (req, res, next) => {
   try {
-    // const updatedCampus = await Campus.update(
-    //   {name: req.body.name,
-    //   address: req.body.address,
-    //   imageUrl: req.body.imageUrl,
-    //   description: req.body.description},
-    //   {where: {id: req.params.campusId}}
-    // )
-
-    const campusId = req.params.campusId
     const campus = await Campus.findOne({
       where: {
-        id: campusId
+        id: req.params.campusId
       }
     })
     await campus.update(req.body)
-    res.status(200).json(campus)
-    // res.redirect(`/campuses/${campus.id}`)
+    res.redirect(303, `/campuses/${campus.id}`)
   } catch (err) {
     console.error(err)
     next(err)

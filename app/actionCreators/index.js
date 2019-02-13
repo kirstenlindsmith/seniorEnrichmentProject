@@ -112,12 +112,11 @@ export const removeCampusFromServer = (campusId) => {
   }
 }
 
-export const updateCampusInServer = (campusId) => {
+export const updateCampusInServer = (campus) => {
   return async (dispatch) => {
     try {
-      const campus = await axios.get(`/api/campuses/${campusId}`)
-      await axios.put(`/api/campuses/${campusId}`, campus.data)
-      dispatch(updateCampus(campus.data))
+      await axios.put(`/api/campuses/${campus.id}`, campus)
+      dispatch(updateCampus(campus))
     } catch (err) {
       console.error(err)
     }
@@ -168,12 +167,11 @@ export const removeStudentFromServer = (studentId) => {
   }
 }
 
-export const updateStudentInServer = (studentId) => {
+export const updateStudentInServer = (student) => {
   return async (dispatch) => {
     try {
-      const student = await axios.get(`/api/students/${campusId}`)
-      await axios.put(`/api/students/${studentId}`, student.data)
-      dispatch(updateStudent(student.data))
+      await axios.put(`/api/students/${student.id}`, student)
+      dispatch(updateStudent(student))
     } catch (err) {
       console.error(err)
     }

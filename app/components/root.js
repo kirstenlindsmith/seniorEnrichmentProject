@@ -10,6 +10,8 @@ import UpdateCampus from './UpdateCampus'
 import UpdateStudent from './UpdateStudent'
 import NoMatch from './NoMatch'
 import Home from './Home'
+import About from './About'
+
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 
 const Root = () => {
@@ -37,6 +39,9 @@ const Root = () => {
             <li>
               <Link to="/campuses/add">Start A Campus</Link>
             </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
           </ul>
         </nav>
         <main>
@@ -50,6 +55,7 @@ const Root = () => {
             <Route exact path="/students/:studentId" component={SingleStudent} />
             <Route path="/campuses/:campusId/update" component={UpdateCampus} />
             <Route path="/students/:studentId/update" component={UpdateStudent} />
+            <Route exact path="/about" component={About} />
             <Route component={NoMatch} />
           </Switch>
             <Route path="/campuses/:campusId/students" component={EnrolledStudents} />

@@ -24,6 +24,7 @@ class UpdateStudent extends Component {
       loading: true,
     };
     this.load = this.load.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
     this.handleLastNameChange = this.handleLastNameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -39,9 +40,9 @@ class UpdateStudent extends Component {
     this.updateState = this.updateState.bind(this);
   }
 
-  componentDidMount() {
-    this.props.loadOneStudent();
-    this.setState({ loading: false });
+  async componentDidMount() {
+    await this.props.loadOneStudent();
+    this.setState({ ...this.state, loading: false });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -57,12 +58,13 @@ class UpdateStudent extends Component {
       email: this.props.student.email,
       imageUrl: this.props.student.imageUrl,
       gpa: this.props.student.gpa,
-      campus: this.props.student.campus.name,
+      campus: 'New York',
       interactedWith: {
         email: false,
         imageUrl: false,
         campus: false,
       },
+      loading: true,
     });
   }
 
@@ -79,33 +81,46 @@ class UpdateStudent extends Component {
     );
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.handleSubmit(
+      this.state.firstName,
+      this.state.lastName,
+      this.state.email,
+      this.state.imageUrl,
+      this.state.gpa,
+      this.state.campus
+    );
+  }
+
   handleFirstNameChange(event) {
-    this.setState({ firstName: event.target.value });
+    this.setState({ ...this.state, firstName: event.target.value });
   }
 
   handleLastNameChange(event) {
-    this.setState({ lastName: event.target.value });
+    this.setState({ ...this.state, lastName: event.target.value });
   }
 
   handleEmailChange(event) {
-    this.setState({ email: event.target.value });
+    this.setState({ ...this.state, email: event.target.value });
   }
 
   handleImageChange(event) {
-    this.setState({ imageUrl: event.target.value });
+    this.setState({ ...this.state, imageUrl: event.target.value });
   }
 
   handleGPAChange(event) {
-    this.setState({ gpa: event.target.value });
+    this.setState({ ...this.state, gpa: event.target.value });
   }
 
   handleCampusChange(event) {
-    this.setState({ campus: event.target.value });
+    this.setState({ ...this.state, campus: event.target.value });
   }
 
   handleBlurWhenInteracting(field) {
     return () => {
       this.setState({
+        ...this.state,
         interactedWith: { ...this.state.interactedWith, [field]: true },
       });
     };
@@ -113,39 +128,46 @@ class UpdateStudent extends Component {
 
   isImageValidUrl() {
     const { imageUrl } = this.state;
-    const imageFileTypes = ['jpg', 'jpeg', 'png', 'gif'];
-    const isValidFileTypePresent = imageFileTypes
-      .map(fileExtension => {
-        return imageUrl.includes(`.${fileExtension}`);
-      })
-      .includes(true);
+    if (this.state.imageUrl) {
+      const imageFileTypes = ['jpg', 'jpeg', 'png', 'gif'];
+      const isValidFileTypePresent = imageFileTypes
+        .map(fileExtension => {
+          return imageUrl.includes(`.${fileExtension}`);
+        })
+        .includes(true);
 
-    const containsUrlTraits =
-      imageUrl.includes('http') ||
-      imageUrl.includes('https') ||
-      imageUrl.includes('www') ||
-      imageUrl.includes('.com') ||
-      imageUrl.includes('.org');
+      const containsUrlTraits =
+        imageUrl.includes('http') ||
+        imageUrl.includes('https') ||
+        imageUrl.includes('www') ||
+        imageUrl.includes('.com') ||
+        imageUrl.includes('.org');
 
-    const imageIsUrl = isValidFileTypePresent && containsUrlTraits;
+      const imageIsUrl = isValidFileTypePresent && containsUrlTraits;
 
-    return imageIsUrl;
+      return imageIsUrl;
+    } else {
+      return true;
+    }
   }
 
   isEmailValid() {
     const { email } = this.state;
-    const containsUrlTraits =
-      email.includes('http') ||
-      email.includes('www') ||
-      email.includes('.gov') ||
-      email.includes('.edu') ||
-      email.includes('.com') ||
-      email.includes('.org') ||
-      email.includes('.co');
+    if (this.state.email) {
+      const containsUrlTraits =
+        email.includes('http') ||
+        email.includes('www') ||
+        email.includes('.gov') ||
+        email.includes('.edu') ||
+        email.includes('.com') ||
+        email.includes('.org');
 
-    const isEmail = email.includes('@') && containsUrlTraits;
+      const isEmail = email.includes('@') && containsUrlTraits;
 
-    return isEmail;
+      return isEmail;
+    } else {
+      return true;
+    }
   }
 
   isCampusValid() {
@@ -158,8 +180,7 @@ class UpdateStudent extends Component {
         })
         .includes(true);
       return doesCampusExist;
-    }
-    return true;
+    } else {return true;}
   }
 
   doFieldsHaveErrors() {
@@ -216,10 +237,7 @@ class UpdateStudent extends Component {
       <div className="center updateForm">
         {this.load()}
         <h4>Edit {student.firstName}'s Profile':</h4>
-        <form
-          className="updateForm"
-          onSubmit={() => this.props.handleSubmit(event)}
-        >
+        <form className="updateForm" onSubmit={() => this.handleSubmit(event)}>
           <div className="formSection">
             <label htmlFor="firstName">First Name</label>
             <div>
@@ -341,17 +359,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const thunkAction = getOneStudentFromServer(studentId);
       dispatch(thunkAction);
     },
-    handleSubmit: event => {
+    handleSubmit: (firstName, lastName, email, imageUrl, gpa, campus) => {
       event.preventDefault();
       dispatch(
         updateStudentInServer(
           {
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            email: this.state.email,
-            imageUrl: this.state.imageUrl,
-            gpa: this.state.gpa,
-            campus: this.state.campus,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            imageUrl: imageUrl,
+            gpa: gpa,
+            campus: campus,
           },
           ownProps.history
         )

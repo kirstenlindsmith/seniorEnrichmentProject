@@ -59,7 +59,7 @@ router.put('/:studentId', async (req, res, next) => {
       }
     })
     await student.update(req.body)
-    res.status(204).json(student)
+    res.redirect(200, `/students/${student.id}`)
   } catch (err) {
     console.error(err)
     next(err)

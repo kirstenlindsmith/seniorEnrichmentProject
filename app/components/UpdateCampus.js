@@ -29,9 +29,9 @@ class UpdateCampus extends Component {
     this.updateState = this.updateState.bind(this);
   }
 
-  componentDidMount() {
-    this.props.loadOneCampus();
-    this.setState({ loading: false });
+  async componentDidMount() {
+    await this.props.loadOneCampus();
+    this.setState({ ...this.state, loading: false });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -75,24 +75,25 @@ class UpdateCampus extends Component {
   }
 
   handleNameChange(event) {
-    this.setState({ name: event.target.value });
+    this.setState({ ...this.state, name: event.target.value });
   }
 
   handleAddressChange(event) {
-    this.setState({ address: event.target.value });
+    this.setState({ ...this.state, address: event.target.value });
   }
 
   handleImageChange(event) {
-    this.setState({ imageUrl: event.target.value });
+    this.setState({ ...this.state, imageUrl: event.target.value });
   }
 
   handleDescriptionChange(event) {
-    this.setState({ description: event.target.value });
+    this.setState({ ...this.state, description: event.target.value });
   }
 
   handleBlurWhenInteracting(field) {
     return () => {
       this.setState({
+        ...this.state,
         interactedWith: { ...this.state.interactedWith, [field]: true },
       });
     };
@@ -100,23 +101,25 @@ class UpdateCampus extends Component {
 
   isImageValidUrl() {
     const { imageUrl } = this.state;
-    const imageFileTypes = ['jpg', 'jpeg', 'png', 'gif'];
-    const isValidFileTypePresent = imageFileTypes
-      .map(fileExtension => {
-        return imageUrl.includes(`.${fileExtension}`);
-      })
-      .includes(true);
+    if (this.state.imageUrl) {
+      const imageFileTypes = ['jpg', 'jpeg', 'png', 'gif'];
+      const isValidFileTypePresent = imageFileTypes
+        .map(fileExtension => {
+          return imageUrl.includes(`.${fileExtension}`);
+        })
+        .includes(true);
 
-    const containsUrlTraits =
-      imageUrl.includes('http') ||
-      imageUrl.includes('https') ||
-      imageUrl.includes('www') ||
-      imageUrl.includes('.com') ||
-      imageUrl.includes('.org');
+      const containsUrlTraits =
+        imageUrl.includes('http') ||
+        imageUrl.includes('https') ||
+        imageUrl.includes('www') ||
+        imageUrl.includes('.com') ||
+        imageUrl.includes('.org');
 
-    const imageIsUrl = isValidFileTypePresent && containsUrlTraits;
+      const imageIsUrl = isValidFileTypePresent && containsUrlTraits;
 
-    return imageIsUrl;
+      return imageIsUrl;
+    } else {return false;}
   }
 
   doFieldsHaveErrors() {
@@ -147,7 +150,7 @@ class UpdateCampus extends Component {
       <div className="center updateForm">
         {this.load()}
         <h4>Edit the {campus.name} Campus:</h4>
-        <form className="updateForm" onSubmit={() => this.handleSubmit(event)}>
+        <form className="updateForm" onSubmit={this.handleSubmit}>
           <div className="formSection">
             <label htmlFor="name">Campus Name</label>
             <div>
@@ -217,6 +220,7 @@ class UpdateCampus extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    rootState: state,
     campus: state.campusState.selectedCampus,
     campusId: ownProps.match.params.campusId,
   };
@@ -233,6 +237,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(
         updateCampusInServer(
           {
+            id: ownProps.match.params.campusId,
             name: name,
             address: address,
             imageUrl: imageUrl,

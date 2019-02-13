@@ -38,9 +38,8 @@ export const campusReducer = (state = initialCampusState, action) => {
       return { ...state, campuses: newCampuses };
     }
     case UPDATE_CAMPUS: {
-      console.log('UPDATE CAMPUS')
       const newCampuses = state.campuses.map(
-        campus => (action.campus === campus ? { ...action.campus } : campus)
+        campus => (action.campus.id === campus.id ? { ...action.campus } : campus)
       );
       return { ...state, campuses: newCampuses };
     }
@@ -65,7 +64,7 @@ export const studentReducer = (state = initialStudentState, action) => {
     }
     case UPDATE_STUDENT: {
       const newStudents = state.students.map(
-        student => (action.student === student ? { ...action.student } : student)
+        student => (action.student.id === student.id ? { ...action.student } : student)
       );
       return { ...state, students: newStudents };
     }

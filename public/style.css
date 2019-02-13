@@ -8,8 +8,13 @@
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif
 }
 
+*::selection {
+  background: rgb(219, 66, 66);
+  color: white  
+}
+
 body {
-  background: linear-gradient(#ffffff, #c0c0c0);
+  background: linear-gradient(#ffffff, #d3d3d3);
   height: 100vh;
   padding: 0;
   margin: 0;
@@ -281,7 +286,8 @@ form button {
 #welcomeTitle{
   margin-top: 260px;
   position: fixed;
-  right: 500px;
+  right: 430px;
+  transform:rotate(-8deg);
 }
 
 #academyTitle {
@@ -293,18 +299,20 @@ form button {
 h1 span{
   color: white;
   font: 120px American Typewriter, serif;
-  background: rgba(245, 112, 112, 0.8);
+  background: rgba(221, 75, 75, 0.8);
   padding: 10px
 }
 
 h2 span{
   color: white;
   font: 40px American Typewriter, serif;
-  background: rgba(245, 112, 112, 0.8);
+  background: rgba(221, 75, 75, 0.8);
   padding: 10px
 }
 
-
+#aboutImage {
+  height: 400px;
+}
 
 
 
