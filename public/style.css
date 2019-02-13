@@ -71,10 +71,17 @@ nav p {
   flex-direction: column;
 }
 
+#navList {
+  position: absolute;
+  left: 272px;
+  top: 10px;
+}
+
 #navList li {
   display: inline-flex;
   flex-direction: row;
-  padding: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   padding-bottom: 0px;
   justify-content: space-between;
 }
@@ -97,6 +104,7 @@ nav p {
   font-size: 10pt;
   display: inline-flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 
@@ -285,7 +293,7 @@ form button {
 
 #welcomeTitle{
   margin-top: 260px;
-  position: fixed;
+  position: absolute;
   right: 430px;
   transform:rotate(-8deg);
 }
@@ -294,6 +302,15 @@ form button {
   position: absolute;
   top: 445px;
   right: 200px;
+}
+
+#catGif {
+  height: 50px;
+  width: 100px;
+  object-fit: cover;
+  position: absolute;
+  left: 205px;
+  top: 5px
 }
 
 h1 span{

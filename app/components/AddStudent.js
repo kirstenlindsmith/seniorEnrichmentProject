@@ -11,12 +11,14 @@ class AddStudent extends Component {
       lastName: '',
       email: '',
       imageUrl: '',
+      gpa: '',
       campus: '',
       interactedWith: {
         firstName: false,
         lastName: false,
         email: false,
         imageUrl: false,
+        gpa: false,
         campus: false,
       },
     };
@@ -24,6 +26,7 @@ class AddStudent extends Component {
     this.handleLastNameChange = this.handleLastNameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
+    this.handleGPAChange = this.handleGPAChange.bind(this);
     this.handleCampusChange = this.handleCampusChange.bind(this);
     this.handleBlurWhenInteracting = this.handleBlurWhenInteracting.bind(this);
     this.isImageValidUrl = this.isImageValidUrl.bind(this);
@@ -52,6 +55,10 @@ class AddStudent extends Component {
   handleImageChange(event) {
     this.setState({ imageUrl: event.target.value });
   }
+  
+  handleGPAChange(event) {
+    this.setState({ gpa: event.target.value })
+  }
 
   handleCampusChange(event) {
     this.setState({ campus: event.target.value });
@@ -67,7 +74,16 @@ class AddStudent extends Component {
 
   isImageValidUrl() {
     const { imageUrl } = this.state;
-    const imageFileTypes = ['jpg', 'jpeg', 'png', 'gif'];
+    const imageFileTypes = [
+      'jpg',
+      'jpeg',
+      'png',
+      'gif',
+      'JPG',
+      'JPEG',
+      'PNG',
+      'GIF',
+    ];
     const isValidFileTypePresent = imageFileTypes
       .map(fileExtension => {
         return imageUrl.includes(`.${fileExtension}`);
@@ -116,12 +132,13 @@ class AddStudent extends Component {
   }
 
   doFieldsHaveErrors() {
-    const { firstName, lastName } = this.state;
+    const { firstName, lastName, gpa } = this.state;
     return {
       firstName: firstName.length === 0,
       lastName: lastName.length === 0,
       email: this.isEmailValid() === false,
       imageUrl: this.isImageValidUrl() === false,
+      gpa: gpa.length === 0,
       campus: this.isCampusValid() === false,
     };
   }
@@ -234,7 +251,16 @@ class AddStudent extends Component {
               Transcript GPA <i>(optional)</i>
             </label>
             <div>
-              <input name="gpa" type="number" step="0.1" min="0.0" max="4.0" />
+              <input
+                name="gpa"
+                type="number"
+                step="0.1"
+                min="0.0"
+                max="4.0"
+                onChange={this.handleGPAChange}
+                className={errorDisplay('gpa') ? 'error' : ''}
+                onBlur={this.handleBlurWhenInteracting('gpa')}
+              />
             </div>
           </div>
 
@@ -244,7 +270,6 @@ class AddStudent extends Component {
               <input
                 name="campus"
                 type="text"
-                defaultValue="New York"
                 onChange={this.handleCampusChange}
                 className={errorDisplay('campus') ? 'error' : ''}
                 onBlur={this.handleBlurWhenInteracting('campus')}

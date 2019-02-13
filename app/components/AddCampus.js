@@ -44,7 +44,16 @@ class AddCampus extends Component {
 
   isImageValidUrl() {
     const { imageUrl } = this.state;
-    const imageFileTypes = ['jpg', 'jpeg', 'png', 'gif'];
+    const imageFileTypes = [
+      'jpg',
+      'jpeg',
+      'png',
+      'gif',
+      'JPG',
+      'JPEG',
+      'PNG',
+      'GIF',
+    ];
     const isValidFileTypePresent = imageFileTypes
       .map(fileExtension => {
         return imageUrl.includes(`.${fileExtension}`);

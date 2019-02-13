@@ -1,16 +1,18 @@
 import React from 'react';
-import AllCampuses from './AllCampuses'
-import SingleCampus from './SingleCampus'
-import EnrolledStudents from './EnrolledStudents'
-import AllStudents from './AllStudents'
-import SingleStudent from './SingleStudent'
-import AddStudent from './AddStudent'
-import AddCampus from './AddCampus'
-import UpdateCampus from './UpdateCampus'
-import UpdateStudent from './UpdateStudent'
-import NoMatch from './NoMatch'
-import Home from './Home'
-import About from './About'
+import {
+  About,
+  AddCampus,
+  AddStudent,
+  AllCampuses,
+  AllStudents,
+  EnrolledStudents,
+  Home,
+  NoMatch,
+  SingleCampus,
+  SingleStudent,
+  UpdateCampus,
+  UpdateStudent,
+} from './index';
 
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 
@@ -22,6 +24,12 @@ const Root = () => {
           <div id="navDiv">
             <h1>Margaret Hamilton</h1>
             <p>Academy of JavaScript</p>
+          </div>
+          <div>
+            <img
+              id="catGif"
+              src="https://thumbs.gfycat.com/TiredLameAsiaticmouflon.webp"
+            />
           </div>
           <ul id="navList">
             <li>
@@ -52,13 +60,23 @@ const Root = () => {
             <Route exact path="/campuses/:campusId" component={SingleCampus} />
             <Route exact path="/students" component={AllStudents} />
             <Route path="/students/add" component={AddStudent} />
-            <Route exact path="/students/:studentId" component={SingleStudent} />
+            <Route
+              exact
+              path="/students/:studentId"
+              component={SingleStudent}
+            />
             <Route path="/campuses/:campusId/update" component={UpdateCampus} />
-            <Route path="/students/:studentId/update" component={UpdateStudent} />
+            <Route
+              path="/students/:studentId/update"
+              component={UpdateStudent}
+            />
             <Route exact path="/about" component={About} />
             <Route component={NoMatch} />
           </Switch>
-            <Route path="/campuses/:campusId/students" component={EnrolledStudents} />
+          <Route
+            path="/campuses/:campusId/students"
+            component={EnrolledStudents}
+          />
         </main>
       </div>
     </Router>
