@@ -252,6 +252,54 @@ form button {
   width: 600px
 }
 
+#homeBg {
+  min-height: 100vh;
+  min-width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0.75
+}
+
+#welcomeTitle{
+  margin-top: 260px;
+  position: fixed;
+  right: 500px;
+}
+
+#academyTitle {
+  position: absolute;
+  top: 445px;
+  right: 200px;
+}
+
+h1 span{
+  color: white;
+  font: 120px American Typewriter, serif;
+  background: rgba(245, 112, 112, 0.8);
+  padding: 10px
+}
+
+h2 span{
+  color: white;
+  font: 40px American Typewriter, serif;
+  background: rgba(245, 112, 112, 0.8);
+  padding: 10px
+}
+
+
+
+/* #homePage {
+  background: url("https://i.imgur.com/hKwrr3i.jpg") no-repeat center center fixed;
+  background-size: cover;
+} */
+
+
+
+
+
+
 /* loading spinner css from loading.io/css */
 .lds-ring {
   display: inline-block;

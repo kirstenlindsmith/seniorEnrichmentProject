@@ -2,7 +2,7 @@
 // When you're ready to use it, un-comment the line below!
 
 import {combineReducers} from 'redux'
-import {GET_CAMPUSES, GET_ONE_CAMPUS, GET_STUDENTS, GET_ONE_STUDENT, GET_ENROLLED_STUDENTS, REMOVE_CAMPUS, REMOVE_STUDENT} from '../actionCreators'
+import {GET_CAMPUSES, GET_ONE_CAMPUS, GET_STUDENTS, GET_ONE_STUDENT, GET_ENROLLED_STUDENTS, REMOVE_CAMPUS, REMOVE_STUDENT, UPDATE_CAMPUS} from '../actionCreators'
 
 const initialCampusState = {
   campuses: [],
@@ -23,6 +23,12 @@ export const campusReducer = (state=initialCampusState, action) => {
       return {...state, selectedCampus: action.campus}
     case REMOVE_CAMPUS: {
       const newCampuses = state.campuses.filter(campus => campus.id !== action.id)
+      return {...state, campuses: newCampuses}
+    }
+    case UPDATE_CAMPUS: {
+      const newCampuses = state.campuses.map(campus => (
+        action.campus === campus ? {...action.campus } : campus
+      ))
       return {...state, campuses: newCampuses}
     }
     default: return state

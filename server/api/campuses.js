@@ -76,9 +76,13 @@ router.put('/:campusId', async (req, res, next) => {
     //   imageUrl: req.body.imageUrl,
     //   description: req.body.description
     // })
-    console.log('put hit!!!')
+
     const campusId = req.params.campusId
-    const campus = await Campus.findById(campusId)
+    const campus = await Campus.findOne({
+      where: {
+        id: campusId
+      }
+    })
     await campus.update(req.body)
     res.redirect(`/campuses/${campus.id}`)
   } catch (err) {
