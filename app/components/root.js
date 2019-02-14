@@ -57,7 +57,7 @@ const Root = () => {
             <Route exact path="/" component={Home} />
             <Route exact path="/campuses" component={AllCampuses} />
             <Route exact path="/campuses/add" component={AddCampus} />
-            <Route exact path="/campuses/:campusId" component={SingleCampus} />
+            <Route path="/campuses/:campusId" component={SingleCampus} />
             <Route exact path="/students" component={AllStudents} />
             <Route path="/students/add" component={AddStudent} />
             <Route
